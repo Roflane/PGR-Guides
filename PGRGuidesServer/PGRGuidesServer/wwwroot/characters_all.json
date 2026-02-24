@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Dante",
+    "image": "/characters/단테.png",
+    "element": 2,
+    "affix": 3
+  },
+  {
+    "name": "Vergil",
+    "image": "/characters/버질.png",
+    "element": 1,
+    "affix": 1
+  },
+  {
+    "name": "Bianca: Crepuscule",
+    "image": "/characters/휘명.png",
+    "element": 4,
+    "affix": 6
+  },
+  {
+    "name": "Veronica: Aegis",
+    "image": "/characters/이지스.png",
+    "element": 2,
+    "affix": 3
+  },
+  {
+    "name": "Liv: Limpidity",
+    "image": "/characters/제몽.png",
+    "element": 3,
+    "affix": 4
+  },
+  {
+    "name": "Teddy: Spectre",
+    "image": "/characters/해영.png",
+    "element": 5,
+    "affix": 6 
+  },
+  {
+    "name": "Rosetta: Arete",
+    "image": "/characters/아레테.png",
+    "element": 4,
+    "affix": 1
+  }
+]
