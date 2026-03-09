@@ -7,5 +7,8 @@ public class AuthResponseDto {
     public DateTimeOffset ExpiresAt { get; set; }
     public DateTimeOffset RefreshTokenExpiresAt { get; set; }
 
+    public string CreatedAt { get; set; }
+    public string StaticImagePath { get; set; } = "/chibi/루시아.png";
+
     public IEnumerable<string> Roles { get; set; } = new List<string>();
 }

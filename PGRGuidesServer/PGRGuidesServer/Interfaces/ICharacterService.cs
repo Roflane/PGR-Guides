@@ -3,5 +3,5 @@ using PGRGuidesServer.Models;
 namespace PGRGuidesServer.Interfaces;
 
 public interface ICharacterService {
-    Task<List<Character>> GetAll();
+    Task<List<Character>> GetAllAsync();
 }

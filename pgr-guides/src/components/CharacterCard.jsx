@@ -12,7 +12,7 @@ const CharacterCard = ({ character }) => {
                 alt={character.name}
                 onError={(e) => {
                     console.log('Failed to load image:', character.image);
-                    e.target.src = '/default-placeholder.png';
+                   // e.target.src = '/default-placeholder.png';
                 }}
             />
             <h3 className={`text-sm font-bold mt-1 text-center ${

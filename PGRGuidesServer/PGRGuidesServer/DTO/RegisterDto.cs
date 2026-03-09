@@ -1,8 +1,18 @@
+using System.Text.Json.Serialization;
+
 namespace PGRGuidesServer.DTO;
 
 public class RegisterDto {
+    [JsonPropertyName("login")]
     public string Login { get; set; }
+    
+    
+    [JsonPropertyName("email")]
     public string Email { get; set; }
+    
+    [JsonPropertyName("password")]
     public string Password { get; set; }
+    
+    [JsonPropertyName("confirmPassword")]
     public string ConfirmPassword { get; set; }
 }

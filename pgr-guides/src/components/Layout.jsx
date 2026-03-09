@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import ProfileDropdown from "./ProfileDropdown.jsx";
 
 const Layout = () => {
     const { isAuth, user } = useSelector(state => state.auth || {});
@@ -35,8 +36,9 @@ const Layout = () => {
 
                         {isAuth && (
                             <span className="text-sm text-green-400 font-semibold">
-                                {user.username} ({role})
+                                {user.login} ({role})
                             </span>
+                            //<ProfileDropdown profile={profile} />
                         )}
                     </div>
                 </div>
