@@ -9,7 +9,7 @@ namespace PGRGuidesServer.Controllers;
 /// </summary>
 /// <param name="characterService"></param>
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]")] 
 public class CharactersController(ICharacterService characterService) : ControllerBase {
     /// <summary>
     /// Asynchronously gets all characters from JSON

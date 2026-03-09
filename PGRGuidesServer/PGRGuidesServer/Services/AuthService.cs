@@ -96,7 +96,9 @@ public class AuthService(
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
         var (refreshToken, jwt) = await CreateRefreshTokenJwtAsync(user.Id, config.RefreshTokenExpirationInDays);
         return new AuthResponseDto {
+            Id = user.Id,
             Login = user.Login ?? user.UserName!,
+            StaticImagePath = user.StaticImagePath,
             CreatedAt = user.CreatedAt.ToString().Split(" ")[0],
             AccessToken = tokenString,
             ExpiresAt = DateTime.UtcNow.AddMinutes(config.ExpirationInMinutes),
@@ -111,9 +113,10 @@ public class AuthService(
         if (existingUser is not null) {
             throw new InvalidOperationException("User with this email already exists");
         }
-        
+
         var user = new ApplicationUser {
             UserName = registerDto.Login,
+            StaticImagePath = DefaultUserConfig.DefaultImagePath,
             Email = registerDto.Email,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
