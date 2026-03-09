@@ -6,6 +6,7 @@ import HomePage from "./components/HomePage.jsx";
 import GuidesPage from "./components/GuidesPage.jsx";
 import LoginPage from "./components/LoginPage.jsx";
 import RegisterPage from "./components/RegisterPage.jsx";
+import ProfilePage from "./components/ProfilePage.jsx";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
                     <Route path="/guides" element={<GuidesPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

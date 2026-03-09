@@ -1,8 +1,10 @@
+import {API_BASE} from "../configs/ApiConfig.js";
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import {useDispatch} from "react-redux";
 import {loginSuccess} from "../store/authSlice.jsx";
+
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -52,7 +54,7 @@ const LoginPage = () => {
         try {
             const isEmail = formData.login.includes('@');
 
-            const response = await axios.post('http://localhost:5177/api/auth/login', {
+            const response = await axios.post(`${API_BASE}/api/auth/login`, {
                 [isEmail ? 'email' : 'login']: formData.login,
                 password: formData.password
             });
@@ -71,13 +73,15 @@ const LoginPage = () => {
             }
 
             const userData = {
+                id: response.data.data.id,
                 login: response.data.data.login,
+                imagePath: API_BASE + response.data.data.staticImagePath,
+                registerDate: response.data.data.createdAt,
                 role: response.data.data.roles[0],
             };
 
             dispatch(loginSuccess(userData));
             navigate('/');
-
         } catch (err) {
             console.error('Login error:', err);
 

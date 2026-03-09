@@ -1,14 +1,27 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import ProfileDropdown from "./ProfileDropdown.jsx";
+import ProfileApi from "../api/ProfileApi.js";
 
 const Layout = () => {
     const { isAuth, user } = useSelector(state => state.auth || {});
+    const [imagePath, setImagePath] = useState(null);
+
     const role = user?.role || "NONE";
     const isAdmin = role === "ADMIN";
     const isModerator = role === "MODERATOR";
     const isUser = role === "USER";
+
+    useEffect(() => {
+        async function fetchImagePath() {
+            if (user) {
+                const res = await ProfileApi.getImageProfile(user.id);
+                setImagePath(res);
+            }
+        }
+        fetchImagePath();
+    }, [user])
 
     return (
         <div className="h-screen bg-gray-700 text-white flex flex-col">
@@ -34,12 +47,11 @@ const Layout = () => {
                             </>
                         )}
 
-                        {isAuth && (
-                            <span className="text-sm text-green-400 font-semibold">
-                                {user.login} ({role})
-                            </span>
-                            //<ProfileDropdown profile={profile} />
+                        {isAuth && user && (
+                            <ProfileDropdown imagePath={imagePath}/>
                         )}
+
+
                     </div>
                 </div>
             </header>

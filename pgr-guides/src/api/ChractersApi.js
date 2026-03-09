@@ -1,9 +1,9 @@
+import {API_BASE, API_CHARACTERS} from "../configs/ApiConfig.js";
+
 export default class CharactersApi {
-    static apiBase = "http://localhost:5177";
-    static apiCharacters = "/api/characters";
 
     static async getAll() {
-        const url = this.apiBase + this.apiCharacters;
+        const url = API_BASE + API_CHARACTERS;
         try {
             const response = await fetch(url);
             if (!response.ok) {
@@ -12,9 +12,9 @@ export default class CharactersApi {
             const data = await response.json();
 
             data.forEach(character => {
-                character.image = this.apiBase + character.image;
+                character.image = API_BASE + character.image;
             })
-            console.log(data);
+            //console.log(data);
             return Array.isArray(data) ? data : Object.values(data);
 
         } catch (error) {
