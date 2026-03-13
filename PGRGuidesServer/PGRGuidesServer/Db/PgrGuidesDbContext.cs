@@ -6,6 +6,8 @@ namespace PGRGuidesServer.Db;
 
 public class PgrGuidesDbContext(DbContextOptions<PgrGuidesDbContext> options) : IdentityDbContext<ApplicationUser>(options) {
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<Guide> Guides => Set<Guide>();
+    
     
     protected override void OnModelCreating(ModelBuilder builder) {
         base.OnModelCreating(builder);
@@ -17,6 +19,11 @@ public class PgrGuidesDbContext(DbContextOptions<PgrGuidesDbContext> options) : 
                 .WithMany()
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        
+        builder.Entity<Guide>(entity => {
+            entity.HasKey(e => e.Id); 
         });
     }
 }

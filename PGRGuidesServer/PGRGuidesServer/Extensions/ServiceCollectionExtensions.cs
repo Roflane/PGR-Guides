@@ -147,6 +147,7 @@ public static class ServiceExtensions {
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<ICharacterService, CharacterService>();
+        services.AddScoped<IGuideService, GuideService>();
         return services;
     }
 }

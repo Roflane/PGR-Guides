@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PGRGuidesServer.DTO;
 using PGRGuidesServer.Interfaces;
 using PGRGuidesServer.Models;
 
@@ -11,16 +12,30 @@ namespace PGRGuidesServer.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class ProfileController(IProfileService profileService) : ControllerBase {
+    /// <summary>
+    /// Asynchronously gets all profile images
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("image/all")]
+    public async Task<List<string>> GetAll() {
+        return await profileService.GetAllAsync();
+    }
+    
+    /// <summary>
+    /// Asynchronously gets profile image path
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     [HttpGet("image/{userId}")]
     public async Task<string?> GetProfileImage(string userId) {
-        return await profileService.GetProfileImage(userId);
+        return await profileService.GetProfileImageAsync(userId);
     }
     
     /// <summary>
     /// Asynchronously changes profile image
     /// </summary>
-    [HttpPut]
-    public async Task<ApplicationUser> ChangeProfileImage(string userId, string newStaticImagePath) {
-        return await profileService.ChangeProfileImageAsync(userId, newStaticImagePath);
+    [HttpPut("image/")]
+    public async Task<ApplicationUser> ChangeProfileImage([FromBody] ChangeProfileImageDto changeProfileImageDto) {
+        return await profileService.ChangeProfileImageAsync(changeProfileImageDto.userId, changeProfileImageDto.newStaticImagePath);
     }
 }

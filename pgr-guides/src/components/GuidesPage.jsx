@@ -3,7 +3,8 @@ import GuideCard from "./GuideCard.jsx";
 const TestGuide = {
     img: "/nuke.jpg",
     title: "Test Guide",
-    desc: "123123123312312",
+    author: "XD",
+    desc: "123131312312312312313131231231231231313123123123",
 }
 
 const GuidesPage = () => {

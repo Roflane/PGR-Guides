@@ -1,7 +1,7 @@
-import {API_BASE} from "../configs/ApiConfig.js";
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import {API_BASE} from "../configs/ApiConfig.js";
+import { useNavigate, Link } from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {loginSuccess} from "../store/authSlice.jsx";
 
@@ -9,7 +9,7 @@ import {loginSuccess} from "../store/authSlice.jsx";
 const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const [rememberMeChecked, setRememberMe] = useState(false);
     const [formData, setFormData] = useState({
         login: '',
         password: ''
@@ -53,14 +53,13 @@ const LoginPage = () => {
 
         try {
             const isEmail = formData.login.includes('@');
-
             const response = await axios.post(`${API_BASE}/api/auth/login`, {
                 [isEmail ? 'email' : 'login']: formData.login,
                 password: formData.password
             });
 
 
-            console.log('Login successful: ', response.data);
+          //  console.log('Login successful: ', response.data);
 
             if (response.data.data?.accessToken) {
                 localStorage.setItem('accessToken', response.data.data.accessToken);
@@ -80,7 +79,7 @@ const LoginPage = () => {
                 role: response.data.data.roles[0],
             };
 
-            dispatch(loginSuccess(userData));
+            dispatch(loginSuccess(userData, rememberMeChecked));
             navigate('/');
         } catch (err) {
             console.error('Login error:', err);
@@ -104,6 +103,8 @@ const LoginPage = () => {
             setLoading(false);
         }
     };
+
+
 
     return (
         <div className=" from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -212,6 +213,7 @@ const LoginPage = () => {
                                 name="remember-me"
                                 type="checkbox"
                                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                onClick={() => setRememberMe(!rememberMeChecked)}
                             />
                             <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
                                 Remember me

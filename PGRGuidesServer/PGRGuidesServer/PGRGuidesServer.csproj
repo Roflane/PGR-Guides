@@ -9,7 +9,6 @@
 
     <ItemGroup>
       <Folder Include="wwwroot\characters\" />
-      <Folder Include="wwwroot\chibi\" />
       <Folder Include="wwwroot\elements\" />
     </ItemGroup>
 

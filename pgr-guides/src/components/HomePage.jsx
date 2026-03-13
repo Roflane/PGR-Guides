@@ -4,6 +4,7 @@ import CharacterCard from "./CharacterCard";
 import {useEffect, useState} from "react";
 import CharactersApi from "../api/ChractersApi";
 import ComboBox from "./ComboBox.jsx";
+import ProfileApi from "../api/ProfileApi.js";
 
 const filtersIdx = [0, EElement.PHYS, EElement.FIRE, EElement.LIGHTNING, EElement.DARK, EElement.ICE, EElement.VOID];
 
@@ -62,6 +63,7 @@ const HomePage = () => {
             </option>
         ))
     };
+
 
     return (
         <div className="container mx-auto p-4">

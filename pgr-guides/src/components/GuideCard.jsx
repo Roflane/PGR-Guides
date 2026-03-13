@@ -17,7 +17,10 @@ const GuideCard = ({ guideCard }) => {
                 </h3>
 
                 <p className="text-sm text-gray-400 mt-2">
-                    {guideCard.desc}
+                    Author: {guideCard.author}
+                </p>
+                <p className="text-sm text-gray-400 mt-2">
+                    Desc: {guideCard.desc}
                 </p>
             </div>
 

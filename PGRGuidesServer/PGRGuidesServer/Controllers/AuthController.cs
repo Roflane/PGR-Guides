@@ -18,7 +18,7 @@ public class AuthController(IAuthService authService) : ControllerBase {
     /// <param name="registerDto"></param>
     /// <returns>ActionResult of ApiResponse`AuthResponseDto`</returns>
     [HttpPost("register")]
-    public async Task<ActionResult<ApiResponse<AuthResponseDto>>> RegisterAsync([FromBody] RegisterDto registerDto) {
+    public async Task<ActionResult<ApiResponse<AuthResponseDto>>> Register([FromBody] RegisterDto registerDto) {
         var result = await authService.RegisterAsync(registerDto);
         // Console.WriteLine("=== Registration Debug ===");
         // Console.WriteLine($"Login: '{registerDto.Login}'");
@@ -35,7 +35,7 @@ public class AuthController(IAuthService authService) : ControllerBase {
     /// <param name="loginDto"></param>
     /// <returns>ActionResult of ApiResponse`AuthResponseDto`</returns>
     [HttpPost("login")]
-    public async Task<ActionResult<ApiResponse<AuthResponseDto>>> LoginAsync([FromBody] LoginDto loginDto) {
+    public async Task<ActionResult<ApiResponse<AuthResponseDto>>> Login([FromBody] LoginDto loginDto) {
         var result = await authService.LoginAsync(loginDto);
         return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(result, "Login successfully"));
     }
@@ -46,7 +46,7 @@ public class AuthController(IAuthService authService) : ControllerBase {
     /// <param name="refreshTokenRequest"></param>
     /// <returns>ActionResult of ApiResponse`AuthResponseDto`</returns>
     [HttpPost("refresh")]
-    public async Task<ActionResult<ApiResponse<AuthResponseDto>>> RefreshAsync([FromBody] RefreshTokenRequestDto refreshTokenRequest) {
+    public async Task<ActionResult<ApiResponse<AuthResponseDto>>> Refresh([FromBody] RefreshTokenRequestDto refreshTokenRequest) {
         var result = await authService.RefreshTokenAsync(refreshTokenRequest);
         return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(result, "Token refreshed successfully"));
     }
@@ -57,7 +57,7 @@ public class AuthController(IAuthService authService) : ControllerBase {
     /// <param name="refreshToken"></param>
     /// <returns>Task of ActionResult</returns>
     [HttpPost("revoke")]
-    public async Task<ActionResult> RevokeAsync([FromBody] string refreshToken) {
+    public async Task<ActionResult> Revoke([FromBody] string refreshToken) {
         await authService.RevokeRefreshTokenAsync(refreshToken);
         return Ok(ApiResponse<AuthResponseDto>.SuccessResponse("Refresh token revoked"));
     }

@@ -1,7 +1,6 @@
 import {API_BASE, API_CHARACTERS} from "../configs/ApiConfig.js";
 
 export default class CharactersApi {
-
     static async getAll() {
         const url = API_BASE + API_CHARACTERS;
         try {
@@ -14,7 +13,6 @@ export default class CharactersApi {
             data.forEach(character => {
                 character.image = API_BASE + character.image;
             })
-            //console.log(data);
             return Array.isArray(data) ? data : Object.values(data);
 
         } catch (error) {
@@ -22,4 +20,5 @@ export default class CharactersApi {
             return [];
         }
     }
+
 }

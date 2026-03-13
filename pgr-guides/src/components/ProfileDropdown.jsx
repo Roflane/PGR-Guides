@@ -28,14 +28,11 @@ const ProfileDropdown = ({ imagePath, user }) => {
                     />
 
                     <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg py-2 z-20 border border-gray-700">
-                        <Link to="/profile" className="block px-4 py-2 text-sm text-white hover:bg-gray-700 transition">
+                        <Link onClick={() => setIsOpen(false)} to="/profile" className="block px-4 py-2 text-sm text-white hover:bg-gray-700 transition">
                             Profile
                         </Link>
                         {/*<Link to="/settings" className="block px-4 py-2 text-sm text-white hover:bg-gray-700 transition">*/}
                         {/*    Settings*/}
-                        {/*</Link>*/}
-                        {/*<Link to="/my-guides" className="block px-4 py-2 text-sm text-white hover:bg-gray-700 transition">*/}
-                        {/*    My Guides*/}
                         {/*</Link>*/}
 
                         <div className="border-t border-gray-700 my-1"></div>

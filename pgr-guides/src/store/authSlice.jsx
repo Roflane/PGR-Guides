@@ -10,13 +10,16 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        loginSuccess: (state, action) => {
+        loginSuccess: (state, action, rememberMe) => {
             state.isAuth = true;
             state.user = action.payload;
             state.imagePath = action.payload.imagePath;
 
             console.log(`payload: ${JSON.stringify(action.payload)}`);
-            localStorage.setItem('user', JSON.stringify(action.payload));
+
+            if (rememberMe) {
+                localStorage.setItem('user', JSON.stringify(action.payload));
+            }
         },
         logout: (state) => {
             state.isAuth = false;
@@ -26,12 +29,7 @@ const authSlice = createSlice({
             localStorage.removeItem('token');
         },
         updateAvatar: (state, action) => {
-            state.imagePath = action.payload;
-            if (state.user) {
-                state.user.avatar = action.payload;
-                localStorage.setItem('user', JSON.stringify(state.user));
-            }
-            localStorage.setItem('imagePath', action.payload);
+            state.imagePath = action.payload.imagePath;
         },
     },
 });
