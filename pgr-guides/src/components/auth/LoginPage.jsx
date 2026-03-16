@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {API_BASE} from "../configs/ApiConfig.js";
+import {API_BASE} from "../../configs/ApiConfig.js";
 import { useNavigate, Link } from 'react-router-dom';
 import {useDispatch} from "react-redux";
-import {loginSuccess} from "../store/authSlice.jsx";
+import {loginSuccess} from "../../store/authSlice.jsx";
 
 
 const LoginPage = () => {

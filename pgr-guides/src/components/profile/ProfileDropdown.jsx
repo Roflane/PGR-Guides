@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../store/authSlice.jsx";
+import {logout} from "../../store/authSlice.jsx";
 
 const ProfileDropdown = ({ imagePath, user }) => {
     const dispatch = useDispatch();

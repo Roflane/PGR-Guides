@@ -1,4 +1,4 @@
-import EElement from "../enums/EElement.js";
+import EElement from "../../enums/EElement.js";
 
 const CharacterCard = ({ character }) => {
     return (

@@ -15,7 +15,7 @@ public class GuideController(IGuideService guideService) : ControllerBase {
     /// Asynchronously gets all guides
     /// </summary>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<List<GuideDto>> GetAll() { 
         return await guideService.GetAllAsync();
     }
@@ -25,7 +25,7 @@ public class GuideController(IGuideService guideService) : ControllerBase {
     /// </summary>
     /// <param name="guideDto"></param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<GuideDto> Create([FromBody] GuideDto guideDto) {
         return await guideService.CreateAsync(guideDto.Title, guideDto.Author, guideDto.Description, guideDto.StaticImagePath);
     }

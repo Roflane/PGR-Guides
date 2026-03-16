@@ -4,7 +4,7 @@ namespace PGRGuidesServer.Models;
 
 public class ApplicationUser : IdentityUser {
     public string Login { 
-        get => base.UserName; 
+        get => base.UserName!; 
         set => base.UserName = value; 
     }
 
@@ -13,4 +13,6 @@ public class ApplicationUser : IdentityUser {
 
     public DateTimeOffset CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTimeOffset? UpdatedAt { get; set; } = null;
+
+    public virtual ICollection<Guide> Guides { get; set; } = new List<Guide>();
 }

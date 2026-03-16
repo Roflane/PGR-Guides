@@ -1,10 +1,10 @@
-import EElement from "../enums/EElement.js";
-import EAffix from "../enums/EAffix.js";
-import CharacterCard from "./CharacterCard";
+import EElement from "../../enums/EElement.js";
+import EAffix from "../../enums/EAffix.js";
+import CharacterCard from "./CharacterCard.jsx";
 import {useEffect, useState} from "react";
-import CharactersApi from "../api/ChractersApi";
-import ComboBox from "./ComboBox.jsx";
-import ProfileApi from "../api/ProfileApi.js";
+import CharactersApi from "../../api/ChractersApi.js";
+import ComboBox from "../element/ComboBox.jsx";
+import ProfileApi from "../../api/ProfileApi.js";
 
 const filtersIdx = [0, EElement.PHYS, EElement.FIRE, EElement.LIGHTNING, EElement.DARK, EElement.ICE, EElement.VOID];
 
@@ -14,13 +14,14 @@ const HomePage = () => {
     useEffect(() => {
         async function fetchCharacters() {
             const result = await CharactersApi.getAll();
+
             if (Array.isArray(result)) {
                 setCharacters(result);
             } else {
                 setCharacters([]);
             }
         }
-        fetchCharacters();
+        fetchCharacters().then();
     }, []);
 
     const [filterElement, setFilterElement] = useState(0);

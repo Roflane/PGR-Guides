@@ -26,9 +26,7 @@ export default class ProfileApi {
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
-            const res= API_BASE + await response.text();
-            //console.log(res);
-            return res;
+            return API_BASE + await response.text();
         } catch (error) {
             console.error(error.message);
             return "";
@@ -57,9 +55,6 @@ export default class ProfileApi {
                 console.error("Server response:", errorText);
                 return false;
             }
-
-            const result = await response.json();
-           // console.log("Server result:", result);
             return true;
         } catch (error) {
             console.error("Error changing profile image:", error.message);

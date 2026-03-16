@@ -1,9 +1,9 @@
 import {useDispatch, useSelector} from "react-redux";
-import {selectImagePath, selectUser} from "../store/selectors/authSelectors.js";
+import {selectImagePath, selectUser} from "../../store/selectors/authSelectors.js";
 import {useEffect, useState} from "react";
-import ProfileApi from "../api/ProfileApi.js";
-import {API_BASE} from "../configs/ApiConfig.js";
-import {loginSuccess, updateAvatar} from "../store/authSlice.jsx";
+import ProfileApi from "../../api/ProfileApi.js";
+import {API_BASE} from "../../configs/ApiConfig.js";
+import {loginSuccess, updateAvatar} from "../../store/authSlice.jsx";
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
