@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using PGRGuidesServer.DTO;
 using PGRGuidesServer.Interfaces;
+using PGRGuidesServer.Models;
 
 namespace PGRGuidesServer.Controllers;
 
 /// <summary>
 /// Controller for Guides
 /// </summary>
-/// <param name="guideServicee"></param>
+/// <param name="guideService"></param>
 [ApiController]
 [Route("api/[controller]")]
 public class GuideController(IGuideService guideService) : ControllerBase {
@@ -16,7 +17,7 @@ public class GuideController(IGuideService guideService) : ControllerBase {
     /// </summary>
     /// <returns></returns>
     [HttpGet("all")]
-    public async Task<List<GuideDto>> GetAll() { 
+    public async Task<List<Guide>> GetAll() { 
         return await guideService.GetAllAsync();
     }
 
@@ -26,7 +27,17 @@ public class GuideController(IGuideService guideService) : ControllerBase {
     /// <param name="guideDto"></param>
     /// <returns></returns>
     [HttpPost("create")]
-    public async Task<GuideDto> Create([FromBody] GuideDto guideDto) {
-        return await guideService.CreateAsync(guideDto.Title, guideDto.Author, guideDto.Description, guideDto.StaticImagePath);
+    public async Task<Guide> Create([FromBody] GuideDto guideDto) {
+        return await guideService.CreateAsync(guideDto);
+    }
+    
+    /// <summary>
+    /// Asynchronously deletes guide
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("delete:{id}")]
+    public async Task<bool> Delete([FromBody] int id) {
+        return await guideService.DeleteAsync(id);
     }
 }

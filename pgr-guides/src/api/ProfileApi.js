@@ -51,8 +51,8 @@ export default class ProfileApi {
             });
 
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error("Server response:", errorText);
+               // const errorText = await response.text();
+             //   console.error("Server response:", errorText);
                 return false;
             }
             return true;

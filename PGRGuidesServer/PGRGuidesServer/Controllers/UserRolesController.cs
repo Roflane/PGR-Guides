@@ -34,7 +34,7 @@ public class UserRolesController(UserManager<ApplicationUser> userManager) : Con
     }
 
     /// <summary>
-    /// Asynchronously gets all users with roles
+    /// Asynchronously gets roles of user
     /// </summary>
     /// <returns></returns>
     [HttpGet("{userId}/roles")]
@@ -51,7 +51,7 @@ public class UserRolesController(UserManager<ApplicationUser> userManager) : Con
     }
 
     /// <summary>
-    /// Asynchronously gets all users with roles
+    /// Asynchronously assigns role to user
     /// </summary>
     /// <returns></returns>
     [HttpPost("{userId}/roles")]

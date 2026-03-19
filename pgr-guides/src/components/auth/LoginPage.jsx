@@ -76,7 +76,7 @@ const LoginPage = () => {
                 login: response.data.data.login,
                 imagePath: API_BASE + response.data.data.staticImagePath,
                 registerDate: response.data.data.createdAt,
-                role: response.data.data.roles[0],
+                roles: response.data.data.roles,
             };
 
             dispatch(loginSuccess(userData, rememberMeChecked));

@@ -1,9 +1,9 @@
 import GuideCard from "./GuideCard.jsx";
+import {API_BASE} from "../../configs/ApiConfig.js";
 import {useEffect, useState} from "react";
 import GuideApi from "../../api/GuideApi.js";
-import {API_BASE} from "../../configs/ApiConfig.js";
 
-const GuidesPage = () => {
+const ModerationPage = () => {
     const [guides, setGuides] = useState([]);
     const [clicked, setClicked] = useState(false);
 
@@ -49,4 +49,4 @@ const GuidesPage = () => {
     );
 }
 
-export default GuidesPage;
+export default ModerationPage;

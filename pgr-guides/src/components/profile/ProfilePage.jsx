@@ -3,7 +3,7 @@ import {selectImagePath, selectUser} from "../../store/selectors/authSelectors.j
 import {useEffect, useState} from "react";
 import ProfileApi from "../../api/ProfileApi.js";
 import {API_BASE} from "../../configs/ApiConfig.js";
-import {loginSuccess, updateAvatar} from "../../store/authSlice.jsx";
+import {updateAvatar} from "../../store/authSlice.jsx";
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
@@ -30,6 +30,7 @@ const ProfilePage = () => {
             }
         };
 
+        console.log(user);
         if (isOpen) {
             fetchImages().then();
         }
@@ -66,6 +67,7 @@ const ProfilePage = () => {
 
             <a className="font-bold text-black text-4xl mt-4">{user.login}</a>
             <a className="mt-8">Register date | {user.registerDate}</a>
+            <a className="mt-8">Roles | {user.roles}</a>
 
             {isOpen && (
                 <div
