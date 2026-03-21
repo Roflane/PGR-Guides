@@ -3,16 +3,16 @@ import {API_BASE, API_GUIDE} from "../configs/ApiConfig.js";
 export default class GuideApi {
     static #API_GUIDE_ALL = `${API_BASE}${API_GUIDE}/all`;
     static #API_GUIDE_CREATE = `${API_BASE}${API_GUIDE}/create`;
+    static #API_GUIDE_CHANGESTATUS = `${API_BASE}${API_GUIDE}/change-status`;
 
     static async getAll() {
         try {
             const response = await fetch(this.#API_GUIDE_ALL);
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
-                // console.error(`Response status: ${response.status}`);
-                // return [];
             }
             const data = await response.json();
+
             return Array.isArray(data) ? data : Object.values(data);
         } catch (error) {
             console.error(error.message);
@@ -25,32 +25,41 @@ export default class GuideApi {
             const response = await fetch(this.#API_GUIDE_ALL);
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
-
-                // console.error(`Response status: ${response.status}`);
-                // return [];
             }
             const data = await response.json();
-            console.log(data)
-            return await response.json().then(r => {
-                r.filter(g => g.author === login);
+            let filtered = [];
+            data.forEach(g => {
+                if (g.author === login) {
+                    filtered.push(g);
+                }
             });
+            return filtered;
         } catch (error) {
             console.error(error.message);
             return [];
         }
     }
 
-    static async create(login, title, desc, staticImagePath) {
+    static async create(guideCreateDto) {
         try {
             const response = await fetch(this.#API_GUIDE_CREATE, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title: title,
-                    author: login,
-                    description: desc,
-                    staticImagePath: staticImagePath
-                })
+                body: JSON.stringify(guideCreateDto)
+            });
+            return response.ok;
+        } catch (error) {
+            console.error(error.message);
+            return false;
+        }
+    }
+
+    static async changeStatus(guideChangeStatusDto) {
+        try {
+            const response = await fetch(this.#API_GUIDE_CHANGESTATUS, {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(guideChangeStatusDto)
             });
             return response.ok;
         } catch (error) {

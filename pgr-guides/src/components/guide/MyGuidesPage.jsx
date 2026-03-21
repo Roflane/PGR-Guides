@@ -13,7 +13,8 @@ const MyGuidesPage = () => {
     const [characters, setCharacters] = useState([]);
     const [guides, setUserGuides] = useState([]);
 
-    const [clicked, setClicked] = useState(false);
+
+    const [clickedGuideId, setClickedGuideId] = useState(0);
     const [createGuideClicked, setCreateGuideClicked] = useState(false);
     const [selectGuideImageClicked, setSelectGuideImageClicked] = useState(false);
 
@@ -36,10 +37,10 @@ const MyGuidesPage = () => {
         if (user?.login) {
             fetchData().then();
         }
-    }, [user.login, refreshTrigger]);
+    }, [user?.login, refreshTrigger]);
 
-    const handleGuideClick = () => {
-        setClicked(!clicked);
+    const handleGuideClick = (guideId) => {
+        setClickedGuideId(guideId);
     };
 
     const handleCreateGuideClicked = () => {
@@ -56,16 +57,28 @@ const MyGuidesPage = () => {
         }
     }
 
+    const handleClose = () => {
+        setClickedGuideId(0);
+    }
+
     const handleGuideSubmit = async () => {
         let staticImagePath = "";
         if (selectedCharacter.image.includes(API_BASE)) {
             staticImagePath = selectedCharacter.image.split(API_BASE)[1];
         }
 
-        let res = await GuideApi.create(user.login, title, description, staticImagePath);
-        if (res) {
+        const dto = {
+          roles: user.roles,
+          guideDto: {
+              title: title,
+              author: user.login,
+              description: description,
+              staticImagePath: staticImagePath,
+          }
+        };
+        if (await GuideApi.create(dto)) {
             setRefreshTrigger(prev => prev + 1);
-            toast.success('Successfully toasted!')
+            toast.success('Successfully created a guide !')
         }
     }
 
@@ -142,13 +155,14 @@ const MyGuidesPage = () => {
 
             <div className="flex-1 overflow-y-auto no-scrollbar min-h-0" style={{ maxHeight: 'calc(72vh)' }}>
                 {guides.map(g => (
-                    <div key={g.id} onClick={handleGuideClick} className="cursor-pointer mb-4">
+                    <div key={g.id} onClick={() => handleGuideClick(g.id)} className="cursor-pointer">
                         <GuideCard guideCard={{
+                            id: g.id,
                             title: g.title,
                             author: g.author,
                             desc: g.description,
                             img: API_BASE + g.staticImagePath
-                        }} clicked={clicked} />
+                        }} clickedGuideId={clickedGuideId} onClose={handleClose} />
                     </div>
                 ))}
             </div>
@@ -166,7 +180,7 @@ const MyGuidesPage = () => {
             </style>
 
             <Toaster
-                position="bottom-right"
+                position="top-center"
                 toastOptions={{
                     duration: 3000,
                     style: {

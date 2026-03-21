@@ -128,7 +128,7 @@ public class AuthService(
             throw new InvalidOperationException($"User creation failed: {errors}");
         }
 
-        await userManager.AddToRoleAsync(user, nameof(ERole.User));
+        await userManager.AddToRoleAsync(user, nameof(ERole.USER));
         return await GenerateTokenAsync(user);
     }
 

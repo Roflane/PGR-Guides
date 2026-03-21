@@ -1,36 +1,24 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PGRGuidesServer.DTO;
-using PGRGuidesServer.Models;
 using PGRGuidesServer.ApiResponse;
+using PGRGuidesServer.Interfaces;
 
 namespace PGRGuidesServer.Controllers;
 
 /// <summary>
 /// Controller for User Roles
 /// </summary>
-/// <param name="userManager"></param>
+/// <param name="roleService">IRoleService</param>
 [Route("api/[controller]")]
 [ApiController]
-public class UserRolesController(UserManager<ApplicationUser> userManager) : ControllerBase {
+public class UserRolesController(IRoleService roleService) : ControllerBase {
     /// <summary>
     /// Asynchronously gets all users with roles
     /// </summary>
     /// <returns></returns>
     [HttpGet]
     public async Task<ActionResult<ApiResponse<IEnumerable<UserWithRolesDto>>>> GetAll() {
-        var users = userManager.Users.OrderBy(u => u.Email).ToList();
-        var dtoList = new List<UserWithRolesDto>();
-        foreach (var user in users) {
-            var roles = await userManager.GetRolesAsync(user);
-            dtoList.Add(new UserWithRolesDto {
-                Id = user.Id,
-                Login = user.UserName!,
-                Email = user.Email!,
-                Roles = roles.ToList()
-            });
-        }
-        return Ok(ApiResponse<IEnumerable<UserWithRolesDto>>.SuccessResponse(dtoList));
+        return Ok(ApiResponse<IEnumerable<UserWithRolesDto>>.SuccessResponse(await roleService.GetAllAsync()));
     }
 
     /// <summary>
@@ -39,15 +27,7 @@ public class UserRolesController(UserManager<ApplicationUser> userManager) : Con
     /// <returns></returns>
     [HttpGet("{userId}/roles")]
     public async Task<ActionResult<ApiResponse<UserWithRolesDto>>> GetRoles(string userId) {
-        var user = await userManager.FindByIdAsync(userId);
-        if (user is null) return NotFound("User not found");
-        var roles = await userManager.GetRolesAsync(user);
-        return Ok(ApiResponse<UserWithRolesDto>.SuccessResponse(new UserWithRolesDto {
-            Id = user.Id,
-            Login = user.UserName!,
-            Email = user.Email!,
-            Roles = roles.ToList()
-        }));
+        return Ok(ApiResponse<UserWithRolesDto>.SuccessResponse(await roleService.GetRolesAsync(userId)));
     }
 
     /// <summary>
@@ -55,20 +35,8 @@ public class UserRolesController(UserManager<ApplicationUser> userManager) : Con
     /// </summary>
     /// <returns></returns>
     [HttpPost("{userId}/roles")]
-    public async Task<ActionResult<ApiResponse<UserWithRolesDto>>> AssignRole(string userId, [FromBody] string role) {
-        var roleName = role.Trim();
-        if (string.IsNullOrEmpty(roleName)) return BadRequest();
-        var user = await userManager.FindByIdAsync(userId);
-        if (user is null) return BadRequest();
-        var result = await userManager.AddToRoleAsync(user, role);
-        if (!result.Succeeded) return BadRequest();
-        var roles = await userManager.GetRolesAsync(user);
-        return Ok(ApiResponse<UserWithRolesDto>.SuccessResponse(new UserWithRolesDto {
-            Id = user.Id,
-            Login = user.UserName!,
-            Email = user.Email!,
-            Roles = roles.ToList()
-        }));
+    public async Task<ActionResult<ApiResponse<UserWithRolesDto>>> AssignRole([FromBody] AssignRoleDto assignRoleDto) {
+        return Ok(ApiResponse<UserWithRolesDto>.SuccessResponse(await roleService.AssignRole(assignRoleDto)));
     }   
     
     /// <summary>
@@ -76,20 +44,7 @@ public class UserRolesController(UserManager<ApplicationUser> userManager) : Con
     /// </summary>
     /// <returns></returns>
     [HttpDelete("{userId}/roles/{roleName}")]
-    public async Task<ActionResult<ApiResponse<UserWithRolesDto>>> RemoveRole(string userId, string roleName) {
-        roleName = roleName.Trim();
-        if (string.IsNullOrEmpty(roleName)) return BadRequest();
-        var user = await userManager.FindByIdAsync(userId);
-        if (user is null) return BadRequest();
-        if (!await userManager.IsInRoleAsync(user, roleName)) return BadRequest();
-        var result = await userManager.RemoveFromRoleAsync(user, roleName);
-        if (!result.Succeeded) return BadRequest();
-        var roles = await userManager.GetRolesAsync(user);
-        return Ok(ApiResponse<UserWithRolesDto>.SuccessResponse(new UserWithRolesDto {
-            Id = user.Id,
-            Login = user.UserName!,
-            Email = user.Email!,
-            Roles = roles.ToList()
-        }));
+    public async Task<ActionResult<ApiResponse<UserWithRolesDto>>> RemoveRole([FromBody] RemoveRoleDto removeRoleDto) {
+        return Ok(ApiResponse<UserWithRolesDto>.SuccessResponse(await roleService.RemoveRole(removeRoleDto)));
     }
 }

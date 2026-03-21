@@ -5,6 +5,7 @@ namespace PGRGuidesServer.Interfaces;
 
 public interface IGuideService {
     Task<List<Guide>> GetAllAsync();
-    Task<Guide> CreateAsync(GuideDto guideDto);
+    Task<Guide> CreateAsync(bool createImmediately, GuideDto guideDto);
+    Task<bool> ChangeStatusAsync(GuideChangeStatusDto guideChangeStatusDto);
     Task<bool> DeleteAsync(int id);
 }

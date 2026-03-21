@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PGRGuidesServer.DTO;
+using PGRGuidesServer.Enums;
 using PGRGuidesServer.Interfaces;
 using PGRGuidesServer.Models;
 
@@ -24,11 +25,30 @@ public class GuideController(IGuideService guideService) : ControllerBase {
     /// <summary>
     /// Asynchronously creates guide
     /// </summary>
-    /// <param name="guideDto"></param>
+    /// <param name="guideCreateDto"></param>
     /// <returns></returns>
     [HttpPost("create")]
-    public async Task<Guide> Create([FromBody] GuideDto guideDto) {
-        return await guideService.CreateAsync(guideDto);
+    public async Task<Guide> Create([FromBody] GuideCreateDto guideCreateDto) {
+        if (guideCreateDto == null) 
+            throw new ArgumentNullException(nameof(guideCreateDto));
+    
+        if (guideCreateDto.GuideDto == null)
+            throw new ArgumentNullException(nameof(guideCreateDto.GuideDto));
+        
+        bool createImmediately = guideCreateDto.Roles
+            .Any(r => r == nameof(ERole.ADMIN));
+    
+        return await guideService.CreateAsync(createImmediately, guideCreateDto.GuideDto);
+    }
+    
+    /// <summary>
+    /// Asynchronously changes guide status
+    /// </summary>
+    /// <param name="guideChangeStatusDto"></param>
+    /// <returns></returns>
+    [HttpPut("change-status")]
+    public async Task<bool> ChangeStatus([FromBody] GuideChangeStatusDto guideChangeStatusDto) {
+        return await guideService.ChangeStatusAsync(guideChangeStatusDto);
     }
     
     /// <summary>

@@ -8,6 +8,7 @@ import LoginPage from "./components/auth/LoginPage.jsx";
 import RegisterPage from "./components/auth/RegisterPage.jsx";
 import ProfilePage from "./components/profile/ProfilePage.jsx";
 import MyGuidesPage from "./components/guide/MyGuidesPage.jsx";
+import ModerationPage from "./components/guide/ModerationPage.jsx";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/guides" element={<GuidesPage />} />
                     <Route path="/my-guides" element={<MyGuidesPage />} />
+                    <Route path="/moderation" element={<ModerationPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

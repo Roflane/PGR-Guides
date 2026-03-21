@@ -29,6 +29,7 @@ public class ProfileService(PgrGuidesDbContext ctx) : IProfileService {
             throw new InvalidOperationException("Invalid avatar path");
         
         user.StaticImagePath = newStaticImagePath;
+        user.UpdatedAt = DateTime.UtcNow;
         await ctx.SaveChangesAsync();
         return user;
     }

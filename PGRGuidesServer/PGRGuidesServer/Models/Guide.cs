@@ -10,7 +10,7 @@ public class Guide {
     public string StaticImagePath { get; set; }
     
     public string GuideStatus { get; set; } = nameof(EGuideStatus.NONE);
-
+    
     // public DateTimeOffset CreatedAt { get; set; } = DateTime.UtcNow;
     // public DateTimeOffset? UpdatedAt { get; set; }
 }

@@ -5,31 +5,65 @@ import ProfileDropdown from "./profile/ProfileDropdown.jsx";
 import ProfileApi from "../api/ProfileApi.js";
 import RippleGrid from "./background/RippleGrid.jsx";
 import {selectImagePath} from "../store/selectors/authSelectors.js";
+import {loginSuccess, logout} from "../store/authSlice.jsx";
 
 const Layout = () => {
-    const { isAuth, user } = useSelector(state => state.auth || {});
-    const [imagePath, setImagePath] = useState(null);
+    const dispatch = useDispatch();
+    const { isAuth, user } = useSelector((state) => state.auth || {});
     const imagePathFromStore = useSelector(selectImagePath);
+    const [imagePath, setImagePath] = useState(null);
 
-    const role = user?.role || "NONE";
-    const isAdmin = role === "ADMIN";
-    const isModerator = role === "MODERATOR";
-    const isUser = role === "USER";
+    const roles = user?.roles || [];
+    const isAdmin = roles.includes("ADMIN");
+    const isModerator = roles.includes("MODERATOR");
+    const isUser = roles.includes("USER");
 
     useEffect(() => {
-        async function fetchImagePath() {
-            if (user) {
-                const res = await ProfileApi.getImageProfile(user.id);
-                setImagePath(res);
+        async function initAuth() {
+            const storedUser = JSON.parse(localStorage.getItem("user"));
+            let accessToken = localStorage.getItem("accessToken");
+
+            if (!storedUser) return;
+
+            if (!accessToken) {
+                accessToken = await refreshAccessToken();
+                if (!accessToken) {
+                    dispatch(logout());
+                    return;
+                }
             }
+
+            dispatch(
+                loginSuccess({
+                    id: storedUser.id,
+                    login: storedUser.login,
+                    roles: storedUser.roles,
+                    imagePath: storedUser.imagePath,
+                    registerDate: storedUser.registerDate,
+                })
+            );
         }
-        if (user) {
-            fetchImagePath();
+
+        initAuth();
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (!user) return;
+        if (user.imagePath) {
+            setImagePath(user.imagePath);
+            return;
         }
-    }, [user, imagePathFromStore])
+
+        async function fetchImagePath() {
+            const res = await ProfileApi.getImageProfile(user.id);
+            setImagePath(res);
+        }
+
+        fetchImagePath();
+    }, [user]);
 
     return (
-        <div className="h-screen bg-gray-700 text-white flex flex-col relative ">
+        <div className="h-screen bg-gray-700 text-white flex flex-col relative">
             <div className="absolute inset-0 z-0">
                 <RippleGrid
                     enableRainbow={false}
@@ -46,28 +80,55 @@ const Layout = () => {
             <header className="bg-gray-800 p-4 border-b border-red-500 relative flex-shrink-0">
                 <div className="container mx-auto flex justify-between items-center">
                     <nav className="flex gap-5 flex-wrap">
-                        <Link to="/" className="px-4 py-2 bg-red-800 rounded hover:bg-red-900 transition">Home</Link>
-                        <Link to="/guides" className="px-4 py-2 bg-red-800 rounded hover:bg-red-900 transition">Guides</Link>
-
-                        {isAuth && <Link to="/my-guides" className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition">My Guides</Link>}
-                        {isUser && <Link to="/submit-guide" className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition">Submit Guide</Link>}
-                        {(isModerator || isAdmin) && (
-                            <Link to="/moderation" className="px-4 py-2 bg-yellow-600 rounded hover:bg-yellow-700 transition">Moderation</Link>
+                        <Link
+                            to="/"
+                            className="px-4 py-2 bg-red-800 rounded hover:bg-red-900 transition"
+                        >
+                            Home
+                        </Link>
+                        <Link
+                            to="/guides"
+                            className="px-4 py-2 bg-red-800 rounded hover:bg-red-900 transition"
+                        >
+                            Guides
+                        </Link>
+                        {isAuth && (
+                            <Link
+                                to="/my-guides"
+                                className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition"
+                            >
+                                My Guides
+                            </Link>
                         )}
-                        {/*{isAdmin && <Link to="/admin" className="px-4 py-2 bg-red-600 rounded hover:bg-red-700 transition">Admin Panel</Link>}*/}
+                        {(isModerator || isAdmin) && (
+                            <Link
+                                to="/moderation"
+                                className="px-4 py-2 bg-yellow-600 rounded hover:bg-yellow-700 transition"
+                            >
+                                Moderation
+                            </Link>
+                        )}
                     </nav>
 
                     <div className="flex gap-3 items-center flex-shrink-0">
                         {!isAuth && (
                             <>
-                                <Link to="/login" className="px-4 py-2 text-black bg-white rounded hover:bg-red-100 transition">Login</Link>
-                                <Link to="/register" className="px-4 py-2 text-black bg-white rounded hover:bg-red-100 transition">Register</Link>
+                                <Link
+                                    to="/login"
+                                    className="px-4 py-2 text-black bg-white rounded hover:bg-red-100 transition"
+                                >
+                                    Login
+                                </Link>
+                                <Link
+                                    to="/register"
+                                    className="px-4 py-2 text-black bg-white rounded hover:bg-red-100 transition"
+                                >
+                                    Register
+                                </Link>
                             </>
                         )}
 
-                        {isAuth && user && (
-                            <ProfileDropdown imagePath={imagePath}/>
-                        )}
+                        {isAuth && user && <ProfileDropdown imagePath={imagePath} />}
                     </div>
                 </div>
             </header>
@@ -83,6 +144,6 @@ const Layout = () => {
             </footer>
         </div>
     );
-}
+};
 
 export default Layout;

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using PGRGuidesServer.Controllers;
 
 namespace PGRGuidesServer.Extensions;
 
@@ -146,8 +147,11 @@ public static class ServiceExtensions {
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IProfileService, ProfileService>();
+        services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<ICharacterService, CharacterService>();
         services.AddScoped<IGuideService, GuideService>();
+        services.AddScoped<UserRolesController>();
+        
         return services;
     }
 }

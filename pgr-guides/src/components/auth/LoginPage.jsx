@@ -62,12 +62,13 @@ const LoginPage = () => {
           //  console.log('Login successful: ', response.data);
 
             if (response.data.data?.accessToken) {
-                localStorage.setItem('accessToken', response.data.data.accessToken);
-                localStorage.setItem('refreshToken', response.data.data.refreshToken);
-
-                localStorage.setItem('user', JSON.stringify({
+                localStorage.setItem("accessToken", response.data.data.accessToken);
+                localStorage.setItem("refreshToken", response.data.data.refreshToken);
+                localStorage.setItem("user", JSON.stringify({
                     login: response.data.data.login,
-                    roles: response.data.data.roles
+                    roles: response.data.data.roles,
+                    id: response.data.data.id,
+                    imagePath: API_BASE + response.data.data.staticImagePath,
                 }));
             }
 
@@ -77,8 +78,11 @@ const LoginPage = () => {
                 imagePath: API_BASE + response.data.data.staticImagePath,
                 registerDate: response.data.data.createdAt,
                 roles: response.data.data.roles,
+                accessToken: response.data.data.accessToken,
+                refreshToken: response.data.data.refreshToken,
             };
 
+            console.log(userData);
             dispatch(loginSuccess(userData, rememberMeChecked));
             navigate('/');
         } catch (err) {

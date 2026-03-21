@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import {Link} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 import {logout} from "../../store/authSlice.jsx";
 
 const ProfileDropdown = ({ imagePath, user }) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -38,7 +39,10 @@ const ProfileDropdown = ({ imagePath, user }) => {
                         <div className="border-t border-gray-700 my-1"></div>
 
                         <button
-                            onClick={() => { dispatch(logout(user)) }}
+                            onClick={() => {
+                                dispatch(logout(user));
+                                navigate("/");
+                            }}
                             className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700 transition"
                         >
                             Logout
