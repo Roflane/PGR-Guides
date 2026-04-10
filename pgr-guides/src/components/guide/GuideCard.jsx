@@ -63,9 +63,9 @@ const GuideCard = ({ guideCard, clickedGuideId, onClose }) => {
                                 <span className="font-semibold text-white">Author:</span> {guideCard.author}
                             </p>
 
-                            <p className="text-sm text-gray-400">
+                            <div className="text-sm text-gray-400 whitespace-pre-wrap">
                                 <span className="font-semibold text-white">Description:</span> {guideCard.desc}
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>

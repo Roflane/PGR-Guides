@@ -39,14 +39,22 @@ const ProfilePage = () => {
     const handleClose = () => { setIsOpen(false); };
 
     const handleAvatarChange = (img) => {
+        console.log("Selected image:", img);
+        console.log("API_BASE:", API_BASE);
+
         const avatarPath = img.split(API_BASE)[1];
+        console.log("Extracted path:", avatarPath);
+
         ProfileApi.changeProfileImage(user.id, avatarPath)
+            .then(response => {
+                console.log("API response:", response);
+            })
             .catch(error => {
                 console.error("Error changing avatar:", error);
-            })
+            });
+
         dispatch(updateAvatar({ imagePath: img }));
     }
-
 
     return (
         <div className="flex flex-col items-center mt-16 ml-8">
@@ -67,7 +75,7 @@ const ProfilePage = () => {
 
             <a className="font-bold text-black text-4xl mt-4">{user.login}</a>
             <a className="mt-8">Register date | {user.registerDate}</a>
-            <a className="mt-8">Roles | {user.roles}</a>
+            {/*<a className="mt-8">Roles | {user.roles}</a>*/}
 
             {isOpen && (
                 <div

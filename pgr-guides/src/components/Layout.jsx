@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import ProfileDropdown from "./profile/ProfileDropdown.jsx";
 import ProfileApi from "../api/ProfileApi.js";
 import RippleGrid from "./background/RippleGrid.jsx";
 import {selectImagePath} from "../store/selectors/authSelectors.js";
-import {loginSuccess, logout} from "../store/authSlice.jsx";
+import {loginSuccess, logout, updateAvatar} from "../store/authSlice.jsx";
+import {refreshAccessToken} from "../api/AuthApi.js";
 
 const Layout = () => {
     const dispatch = useDispatch();
     const { isAuth, user } = useSelector((state) => state.auth || {});
-    const imagePathFromStore = useSelector(selectImagePath);
-    const [imagePath, setImagePath] = useState(null);
+    const imagePath = useSelector(selectImagePath);
 
     const roles = user?.roles || [];
     const isAdmin = roles.includes("ADMIN");
     const isModerator = roles.includes("MODERATOR");
-    const isUser = roles.includes("USER");
+   // const isUser = roles.includes("USER");
 
     useEffect(() => {
         async function initAuth() {
@@ -47,20 +47,20 @@ const Layout = () => {
         initAuth();
     }, [dispatch]);
 
+
     useEffect(() => {
-        if (!user) return;
-        if (user.imagePath) {
-            setImagePath(user.imagePath);
-            return;
+        if (user?.id && !imagePath) {
+            async function fetchImagePath() {
+                try {
+                    const res = await ProfileApi.getImageProfile(user.id);
+                    dispatch(updateAvatar({ imagePath: res }));
+                } catch (error) {
+                    console.error("Error fetching avatar:", error);
+                }
+            }
+            fetchImagePath();
         }
-
-        async function fetchImagePath() {
-            const res = await ProfileApi.getImageProfile(user.id);
-            setImagePath(res);
-        }
-
-        fetchImagePath();
-    }, [user]);
+    }, [user, imagePath, dispatch]);
 
     return (
         <div className="h-screen bg-gray-700 text-white flex flex-col relative">

@@ -15,8 +15,6 @@ const authSlice = createSlice({
             state.user = action.payload;
             state.imagePath = action.payload.imagePath;
 
-            console.log(`payload: ${JSON.stringify(action.payload)}`);
-
             if (rememberMe) {
                 localStorage.setItem('user', JSON.stringify(action.payload));
             }
