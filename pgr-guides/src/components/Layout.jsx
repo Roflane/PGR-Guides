@@ -32,13 +32,12 @@ const Layout = () => {
                     return;
                 }
             }
-
             dispatch(
                 loginSuccess({
                     id: storedUser.id,
                     login: storedUser.login,
                     roles: storedUser.roles,
-                    imagePath: storedUser.imagePath,
+                    imagePath: await ProfileApi.getImageProfile(storedUser.id),
                     registerDate: storedUser.registerDate,
                 })
             );

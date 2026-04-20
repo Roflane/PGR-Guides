@@ -17,7 +17,7 @@ public class ProfileController(IProfileService profileService) : ControllerBase 
     /// </summary>
     /// <returns></returns>
     [HttpGet("image/all")]
-    public async Task<List<string>> GetAll() {
+    public async Task<List<Chibi>> GetAll() {
         return await profileService.GetAllAsync();
     }
     

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PGRGuidesServer.Config;
 using PGRGuidesServer.Db;
 using PGRGuidesServer.DTO;
 using PGRGuidesServer.Enums;
@@ -9,7 +10,9 @@ namespace PGRGuidesServer.Services;
 
 public class GuideService(PgrGuidesDbContext ctx) : IGuideService {
     public async Task<List<Guide>> GetAllAsync() { 
-        return await ctx.Guides.ToListAsync();
+        var guides = await ctx.Guides.ToListAsync();
+        guides.ForEach(g => g.StaticImagePath = ApiConfig.S3BaseUrl + g.StaticImagePath);
+        return guides;
     }
 
     public async Task<Guide> CreateAsync(bool createImmediately, GuideDto guideDto) {

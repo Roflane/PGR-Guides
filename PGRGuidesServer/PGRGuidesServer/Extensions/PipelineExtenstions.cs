@@ -16,10 +16,11 @@ public static class PipelineExtensions {
             }
         }
         
+        app.UseCors("AllowAll"); 
+        
         app.UseHttpsRedirection()
             .UseSwagger()
             .UseSwaggerUI()
-            .UseCors("AllowReactDev")
             .UseRouting()
             .UseAuthentication() 
             .UseAuthorization()

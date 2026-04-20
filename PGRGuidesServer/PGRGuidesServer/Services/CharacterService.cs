@@ -1,4 +1,5 @@
 using System.Text.Json;
+using PGRGuidesServer.Config;
 using PGRGuidesServer.Interfaces;
 using PGRGuidesServer.Models;
 
@@ -11,6 +12,16 @@ public class CharacterService : ICharacterService {
             PropertyNameCaseInsensitive = true
         };
         var characters = JsonSerializer.Deserialize<List<Character>>(json, options);
+        
+        if (characters != null) {
+            foreach (var character in characters) {
+                if (!string.IsNullOrEmpty(character.Image)) {
+                    var fileName = Path.GetFileName(character.Image);
+                    character.Image = ApiConfig.S3BaseUrl + "/characters/" + fileName;
+                }
+            }
+        }
+        
         return characters ?? new List<Character>();
     }
 }

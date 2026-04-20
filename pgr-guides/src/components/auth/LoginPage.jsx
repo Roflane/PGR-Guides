@@ -4,6 +4,7 @@ import {API_BASE} from "../../configs/ApiConfig.js";
 import { useNavigate, Link } from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {loginSuccess} from "../../store/authSlice.jsx";
+import api from "../../configs/axios.js";
 
 
 const LoginPage = () => {
@@ -53,7 +54,7 @@ const LoginPage = () => {
 
         try {
             const isEmail = formData.login.includes('@');
-            const response = await axios.post(`${API_BASE}/api/auth/login`, {
+            const response = await api.post(`/auth/login`, {
                 [isEmail ? 'email' : 'login']: formData.login,
                 password: formData.password
             });

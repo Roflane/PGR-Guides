@@ -33,7 +33,7 @@ const GuidesPage = () => {
                             title: g.title,
                             author: g.author,
                             desc: g.description,
-                            img: API_BASE + g.staticImagePath
+                            img: g.staticImagePath
                         }} clickedGuideId={clickedGuideId} onClose={handleClose} />
                     </div>
                 ))}

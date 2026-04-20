@@ -19,6 +19,7 @@ const ProfilePage = () => {
 
                 if (Array.isArray(response)) {
                     setImages(response);
+                    console.log(response);
                 }
                 else {
                     console.error("Unexpected response format:", response);
@@ -42,7 +43,7 @@ const ProfilePage = () => {
         console.log("Selected image:", img);
         console.log("API_BASE:", API_BASE);
 
-        const avatarPath = img.split(API_BASE)[1];
+        const avatarPath = img.split('.com')[1];
         console.log("Extracted path:", avatarPath);
 
         ProfileApi.changeProfileImage(user.id, avatarPath)

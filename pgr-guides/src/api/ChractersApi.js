@@ -1,20 +1,13 @@
 import {API_BASE, API_CHARACTERS} from "../configs/ApiConfig.js";
+import api from "../configs/axios.js";
 
 export default class CharactersApi {
     static async getAll() {
-        const url = `${API_BASE}${API_CHARACTERS}`;
+        const url = `${API_CHARACTERS}`;
         try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-            const data = await response.json();
-
-            data.forEach(character => {
-                character.image = API_BASE + character.image;
-            })
+            const response = await api.get(url);
+            const data = response.data;
             return Array.isArray(data) ? data : Object.values(data);
-
         } catch (error) {
             console.error(error.message);
             return [];

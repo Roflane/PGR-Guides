@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from "../../configs/axios.js";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -66,7 +66,7 @@ const RegisterPage = () => {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:5177/api/auth/register', {
+            const response = await api.post('/auth/register', {
                 login: formData.login,
                 email: formData.email,
                 password: formData.password,

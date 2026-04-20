@@ -56,14 +56,19 @@ public static class ServiceExtensions {
     }
 
     public static IServiceCollection UseCors(this IServiceCollection services) {
+        string[] origins = [
+            "http://localhost:5173",
+            "http://localhost:5177",
+            "http://13.63.154.186",
+            "http://ec2-13-63-154-186.eu-north-1.compute.amazonaws.com"
+        ];
         services.AddCors(options => {
-            options.AddPolicy("AllowReactDev", policy => 
-                policy.WithOrigins("http://localhost:5173")
+            options.AddPolicy("AllowAll", policy => 
+                policy.WithOrigins(origins)
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());
         });
-        
         return services;
     }
 
